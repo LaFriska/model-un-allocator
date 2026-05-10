@@ -6,7 +6,6 @@ Author: Harold Gao
 import csv
 import sys 
 import random 
-from pathlib import Path
 
 if len(sys.argv) != 3:
     print("Usage: python3 allocate.py <countries> <preferences>")
@@ -22,15 +21,15 @@ def get_countries(file_name):
             reader = csv.reader(csvfile)
             for country in reader:
                 if(len(country) != 1):
-                    print(f"Error: each row in {file_name} must have a single entry")
-                    exit(0)
-                if(country[0] in s):
+                    print(f"Error: failed to parse {country}, each row in {file_name} must have a single entry")
+                    exit(1)
+                if(country[0].strip() in s):
                     print(f"Warning: found duplicate country {country[0]}, skipping it for now")
                     continue 
                 s.add(country[0].strip())
     except FileNotFoundError:
         print(f"Error: cannot find {file_name}")
-        exit(0)
+        exit(1)
             
     return s
 
@@ -44,24 +43,24 @@ def get_delegates(file_name):
             reader = csv.reader(csvfile)
             for delegate in reader:
                 if(len(delegate) != 4):
-                    print(f"Error: each row in {file_name} must have exactly 4 comma-separated values")
-                    exit(0)
+                    print(f"Error: failed to parse {str(delegate)}, each row in {file_name} must have exactly 4 comma-separated values")
+                    exit(1)
                 order = int(delegate[3])
                 firstPref = delegate[1]
                 secondPref = delegate[2]
                 name = delegate[0]
                 l.append({
-                    "name": name,
+                    "name": name.strip(),
                     "first_pref": firstPref.strip(),
                     "second_pref": secondPref.strip(),
                     "order": order
                 })
     except FileNotFoundError:
         print(f"Error: cannot find {file_name}")
-        exit(0)
+        exit(1)
     except ValueError:
         print(f"Error: the 4th entries in each row must be a number")
-        exit(0)
+        exit(1)
     return l
 
 def matchedEntry(name, country):
@@ -124,10 +123,6 @@ def write_matched(file_name, matched):
     """ 
     Writes the matched delegate-country pairs to a CSV file.
     """ 
-    
-    if Path(file_name).exists():
-        print(f"Error: cannot write to file {file_name}, as the file already exists!") 
-        exit(0)
     
     with open(file_name, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
