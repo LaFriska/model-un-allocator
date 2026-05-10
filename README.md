@@ -2,7 +2,7 @@
 
 Author: Harold Gao
 
-Here I present a python script to allocate delegates to model UN teams. There are `C` countries, with `D` delegates, each delegate should be assigned to a country, and a country has atmost one delegate. Each delegate also has a first preference country, second preference country, and `order` integer field, which represents a timestamp the delegate's preference came through. 
+Here I present a python script to allocate delegates to model UN teams. You can define a list of countries and a list of delegates, each delegate should be assigned to a country, and a country has atmost one delegate. Each delegate also has a first preference country, second preference country, and `order` integer field, which represents a timestamp the delegate's preference came through. 
 
 ## Rules 
 
@@ -16,10 +16,10 @@ Here I present a python script to allocate delegates to model UN teams. There ar
 - Extract the downloaded ZIP file.
 - If not already, please install `python3` on your computer. `https://www.python.org/downloads/`
 - Change to this folder through the command line. On Mac or Linux this will be `cd <path_to_this_folder>`
-- Then, run `python3 allocate.py <countries_csv> <delegates_csv>` where `countries_csv` is a list of countries, and `delegates_csv` is a list of delegates and their preferences.
+- Then, run `python3 allocate.py <countries_csv> <delegates_csv>` where `countries_csv` is path to a list of countries, and `delegates_csv` is path to a list of delegates and their preferences.
 - If successful and that CSV files are formatted correctly, this will produce a `matched.csv` file containing a pair of names and their matched countries.
 
-You may want to run the provided example csv files:
+You may want to run the provided example csv files to check that everything works:
 
 ```
 python3 allocate.py examples/193countries.csv examples/delegates.csv
@@ -44,7 +44,7 @@ France
 
 ## Delegates CSV File 
 
-Each row must have the following fields in order separated by commas: name, first preferred country, second preferred country, order, where order is a decimal number. 
+Each row must have the following fields in order separated by commas: name, first preferred country, second preferred country, order, where order is a number. 
 
 Example:
 ```
